@@ -27,11 +27,11 @@ const App = () => {
       <Navebar />
       <Routes>
 
-        <Route path="/" element={authUser?<Home/>:<Navigate to="/login"/>}/>
+        <Route path="/" element={authUser?<Home/>:<Navigate to="/signin"/>}/>
         <Route path="/signin" element={!authUser?<Signin/>:<Navigate to="/"/>}/>
         <Route path="/login" element={<LoginPage/>}/>
-        <Route path="/logout" element={authUser?<LogoutPage/>:<Navigate to="/login"/>}/>
-        <Route path="/profile" element={authUser?<ProfilePage/>:<Navigate to="/login"/>}/>
+        <Route path="/logout" element={authUser?<LogoutPage/>:<Navigate to="/signin"/>}/>
+        <Route path="/profile" element={authUser?<ProfilePage/>:<Navigate to="/signin"/>}/>
 
       </Routes>
 

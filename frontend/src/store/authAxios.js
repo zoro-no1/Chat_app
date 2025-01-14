@@ -15,8 +15,8 @@ export const authStore= create((set)=>({
             const res= await axiosInstance.get("/auth/check");
             set({authUser:res.data})
         } catch (error) {
-            console.log(error);
-            
+            console.log(error.response.data.message);
+            toast.error("not login")
             set({authUser:null})
         }finally{
             set({isCheckingAuth:false})
@@ -27,12 +27,10 @@ export const authStore= create((set)=>({
         set({signin:true})
      try {
        const res= await axiosInstance.post("/auth/signin",data)
-        set({authUser:res.data});
-        console.log(authUser);
+         set({authUser:res.data});
         toast.success("Accouth created")
      } catch (error) {
-        console.log("pata nhi kya ho raha hai");
-        console.log(authUser);
+        console.log(error.response.data.message);
         toast.error(error.response.data.message)
      }finally{
         set({signin:false})

@@ -9,7 +9,8 @@ export const isLogin= handler(async (req,res,next)=>{
 
      if(!token){
      
-         throw new apiError(401,"not login")
+      res.status(401).clearCookie("token").json({message:"not login"})
+      // throw new apiError(401,"not login")
      }
      
    const refreshToken= jwt.verify(token,"token")
@@ -24,7 +25,7 @@ export const isLogin= handler(async (req,res,next)=>{
  
      next()
    } catch (error) {
-    throw new apiError(403,error.message)
+    throw new apiError(401,error.message)
    }
     
 })

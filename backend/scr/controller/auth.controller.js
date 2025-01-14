@@ -25,7 +25,7 @@ export const signin = handler(async (req, res) => {
   const token = await createUser.refreshToken()
 
   res
-    .status(401)
+    .status(201)
     .cookie("token", token)
     .json( { message: "user Created successfully"});
 });
