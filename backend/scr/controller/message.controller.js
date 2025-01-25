@@ -7,28 +7,33 @@ import { handler } from "../utils/handler.js";
 
 export const users=handler(async (req,res)=>{
     const loginId= req.user._id
-    const filterId = await User.find({_id:{$ne:loginId}}).select("_password")
+    const filterId = await User.find({_id:{$ne:loginId}}).select("-password")
 
-    res.status(200).json(
-        new apiSuccess(200,filterId)
+    res.status(200).json({
+        message:filterId
+    }
     )
 })
 
 export const getMessage= handler(async (req,res)=>{
-    const {id:chatId}=req.params
-    const myId = req.user;
-
-    const message = await Message.find({
-        $ro:[{receiverId:chatId,senderId:myId},
-            {receiverId:myId,senderId:chatId}
-        ]
-    })
-    if(!message){
-        throw new apiError(500,"message not found")
-    }
-     res.status(200).json(
-        new apiSuccess(200,message)
-     )
+ try {
+       const {id:chatId}=req.params
+       const myId = req.user;
+   
+       const message = await Message.find({
+           $or:[{receiverId:chatId,senderId:myId},
+               {receiverId:myId,senderId:chatId}
+           ]
+       })
+      
+        res.status(200).json({
+           message
+        }
+        )
+ } catch (error) {
+    console.log("Error in getMessages controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+ }
 
 })
 

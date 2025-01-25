@@ -1,8 +1,9 @@
 import User from "../model/user.model.js";
 import { apiError } from "../utils/apiError.js";
 import { apiSuccess } from "../utils/apiSuccess.js";
+import cloudinary from "../utils/cloudinary.js";
 import { handler } from "../utils/handler.js";
-import jwt from "jsonwebtoken";
+
 
 export const signin = handler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -51,12 +52,12 @@ export const login = handler(async (req, res) => {
 
   const token = await loginUser.refreshToken();
 
-  return res
+   res
     .status(200)
     .cookie("token", token)
     .json(
       new apiSuccess(200, {
-        message: "login",
+        message:"login"
       })
     );
 });
@@ -69,9 +70,30 @@ export const logout = handler(async (req, res) => {
 });
 
 export const check= handler(async (req,res)=>{
+
   
      res.status(200).json(
-         new apiSuccess(200,req.user)
+         {
+          message:req.user,
+         }
      )
    
 })
+
+export const uploadImg=handler(async(req,res)=>{
+ try {
+   const {profileImg}= req.body;
+   const userId= req.user;
+   if(!profileImg){
+     res.staus(401).json({message:"image not found"})
+ };
+ const uploadCloudinary= await cloudinary.uploader.upload(profileImg)
+ const updateUser= await User.findByIdAndUpdate(userId._id,{profileImg:uploadCloudinary.secure_url},{new:true});
+ console.log(updateUser);
+ 
+ res.status(201).json({message:"image upload successfully"})
+ } catch (error) {
+  res.staus(401).json({message:error.message})
+};
+ }
+)

@@ -15,6 +15,9 @@ const userSchema=new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    profileImg:{
+        type:String,
     }
 },
 {timestamps:true}
@@ -33,9 +36,12 @@ userSchema.methods.isPasswordCorrect = async function(password) {
     return await bcrypt.compare(password,this.password)
 }
 
-userSchema.methods.refreshToken= async function () {
+userSchema.methods.refreshToken=  function () {
    return jwt.sign({
-        _id:this._id
+        _id:this._id,
+        username:this.username,
+        email:this.email,
+        profileImg:this.profileImg
     },"token",{expiresIn:"7d"})
 }
 

@@ -67,7 +67,7 @@ const Signin = () => {
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <svg
-            // onClick={()=>showPassword?false:true}
+             onClick={()=>showPassword?false:true}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
@@ -87,7 +87,9 @@ const Signin = () => {
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
+            
           />
+         
         </label>
         <button className="btn btn-warning w-full mt-1" disabled={signin} type="submit">  {signin ? (
             <>

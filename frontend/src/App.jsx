@@ -8,8 +8,11 @@ import LogoutPage from "./pages/LogoutPage";
 import { authStore } from "./store/authAxios.js";
 import ProfilePage from "./pages/profilePage.jsx";
 import {Toaster} from "react-hot-toast"
+import SettingPage from "./pages/SettingPage.jsx";
+import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
+  const {theme}= useThemeStore();
   const {authUser,checkingAuth,isCheckingAuth}= authStore();
   useEffect(() => {
     checkingAuth()
@@ -23,15 +26,16 @@ const App = () => {
   }
   
   return (
-    <div>
+    <div data-theme={theme}>
       <Navebar />
       <Routes>
 
         <Route path="/" element={authUser?<Home/>:<Navigate to="/signin"/>}/>
         <Route path="/signin" element={!authUser?<Signin/>:<Navigate to="/"/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/login" element={authUser?<Navigate to="/"/>:<LoginPage/>}/>
         <Route path="/logout" element={authUser?<LogoutPage/>:<Navigate to="/signin"/>}/>
         <Route path="/profile" element={authUser?<ProfilePage/>:<Navigate to="/signin"/>}/>
+        <Route path="/setting" element={authUser?<SettingPage/>:<Navigate to="/login"/>}/>
 
       </Routes>
 

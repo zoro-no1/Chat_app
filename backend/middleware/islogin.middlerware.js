@@ -18,10 +18,10 @@ export const isLogin= handler(async (req,res,next)=>{
      const user= await User.findById(refreshToken._id).select("_password")
  
      if (!user) {
-         throw new apiError(404,"token invalid")
+      res.status(401).clearCookie("token").json({message:"token not vailde"})
+        // throw new apiError(404,"token invalid")
      }
- 
-     req.user=user;
+      req.user=refreshToken;
  
      next()
    } catch (error) {
