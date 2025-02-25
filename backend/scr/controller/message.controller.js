@@ -1,7 +1,5 @@
 import  Message  from "../model/message.model.js";
 import User from "../model/user.model.js";
-import { apiError } from "../utils/apiError.js";
-import { apiSuccess } from "../utils/apiSuccess.js";
 import { handler } from "../utils/handler.js";
 
 
@@ -38,11 +36,11 @@ export const getMessage= handler(async (req,res)=>{
 })
 
 export const sendMessage= handler(async (req,res)=>{
-    const text =req.body;
+    const {text} =req.body;
     const {id:receiverId}= req.params;
     const myId=req.user;
     if(!text){
-        throw new apiError(401,"enter somthing")
+       res.status(404).json({data:"empty Text"})
     }
 
     const message=await Message.create({
@@ -52,8 +50,8 @@ export const sendMessage= handler(async (req,res)=>{
     })
 
     if(!message){
-        throw new apiError(500),"somthing went wrong"
+        res.status(404).json({data:"Message Not Found"})
     }
 
-    res.status(201).json(new apiSuccess(201,message))
+    res.status(201).json({message:message.text})
 })

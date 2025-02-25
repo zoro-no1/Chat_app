@@ -1,21 +1,22 @@
 import {create} from "zustand"
 import { axiosInstance } from "../util/axios.js"
 import toast from "react-hot-toast";
-
-export const authStore= create((set)=>({
+import {io} from "socket.io-client"
+export const authStore= create((set,get)=>({
     authUser:null,
     signin:false,
     islogin:false,
     isFileUpload:false,
-
+    socket:null,
     isCheckingAuth:true,
 
     checkingAuth:async ()=>{
         try {
             const res= await axiosInstance.get("/auth/check"); 
             set({authUser:res.data.message})
+            get().connectSocket()
         } catch (error) {
-            console.log(error.response.data.message);
+            console.log(error);
          
             set({authUser:null})
         }finally{
@@ -29,6 +30,7 @@ export const authStore= create((set)=>({
        const res= await axiosInstance.post("/auth/signin",data)
          set({authUser:res.data});
         toast.success("Accouth created")
+        get().connectSocket()
      } catch (error) {
         console.log(error.response.data.message);
         toast.error(error.response.data.message)
@@ -42,6 +44,7 @@ export const authStore= create((set)=>({
             await axiosInstance.post("/auth/logout");
             set({authUser:null})
             toast.success("Logout")
+            get().disconnectSocket()
         } catch (error) {
             toast.error("somthing went wrong")
         }
@@ -52,9 +55,10 @@ export const authStore= create((set)=>({
             set({authUser:res});
             set({islogin:true})
             toast.success("login")
+            get().connectSocket()
         } catch (error) {
             set({islogin:false})
-            toast.error(error.response.data.error)
+            toast.error(error)
         }
     },
 
@@ -70,5 +74,16 @@ try {
 }finally{
     set({isFileUpload:false})
 }
+    },
+
+    connectSocket:()=>{
+        const {authUser}=get()
+        if(!authUser || get().socket?.connected())return;
+        const socket=io("http://localhost:4000")
+        socket.connect();
+        
+    },
+    disconnectSocket:()=>{
+       if(get().socket?.connected()) get().socket.disconnect();
     }
 }))
