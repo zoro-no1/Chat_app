@@ -5,13 +5,13 @@ import toast from 'react-hot-toast';
 const LoginPage = () => {
 const [showPassword,setShowPassword]=useState(false)
   const [formData,setFormData]=useState({
-    email:"",
+    username:"",
     password:""
   })
 
   const {islogin,login}=authStore();
   const validateForm=()=>{
-    if(!formData.email.trim())return toast.error("enter email");
+    if(!formData.username.trim())return toast.error("enter name");
     if(!formData.password.trim())return toast.error("enter password")
 
       return true
@@ -37,10 +37,10 @@ const [showPassword,setShowPassword]=useState(false)
           <input
             type="text"
             className="grow"
-            placeholder="email"
-            value={formData.email}
+            placeholder="username"
+            value={formData.username}
             onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
+              setFormData({ ...formData, username: e.target.value })
             }
             />
         </label>

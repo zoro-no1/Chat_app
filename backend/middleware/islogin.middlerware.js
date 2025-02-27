@@ -25,7 +25,8 @@ export const isLogin= handler(async (req,res,next)=>{
  
      next()
    } catch (error) {
-    throw new apiError(401,error.message)
+    res.status(401).clearCookie("token").json({message:error.message})
+   // throw new apiError(401,error.message)
    }
     
 })

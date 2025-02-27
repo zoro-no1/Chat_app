@@ -13,13 +13,15 @@ import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
   const {theme}= useThemeStore();
-  const {authUser,checkingAuth,isCheckingAuth}= authStore();
+  const {authUser,checkingAuth,isCheckingAuth,onlineUsers}= authStore();
   useEffect(() => {
     checkingAuth()
-  
-  }, [checkingAuth]);
+    
+  }, [checkingAuth,onlineUsers]);
 
-  console.log({authUser});
+ // console.log(onlineUsers);
+  
+ // console.log({authUser});
 
   if(isCheckingAuth && !authUser){
     return <span className="loading loading-spinner loading-md"></span>

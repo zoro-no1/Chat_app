@@ -9,12 +9,13 @@ export const authStore= create((set,get)=>({
     isFileUpload:false,
     socket:null,
     isCheckingAuth:true,
+    onlineUsers:[],
 
     checkingAuth:async ()=>{
         try {
             const res= await axiosInstance.get("/auth/check"); 
             set({authUser:res.data.message})
-            get().connectSocket()
+             get().connectSocket()
         } catch (error) {
             console.log(error);
          
@@ -39,14 +40,14 @@ export const authStore= create((set,get)=>({
      }
     },
 
-    logout:async()=>{
+    logout:async()=>{ 
         try {
             await axiosInstance.post("/auth/logout");
             set({authUser:null})
-            toast.success("Logout")
             get().disconnectSocket()
+            toast.success("Logout")
         } catch (error) {
-            toast.error("somthing went wrong")
+            toast.error("somthing went wrong in logut ")
         }
     },
     login: async (data)=>{
@@ -54,8 +55,8 @@ export const authStore= create((set,get)=>({
            const res= await axiosInstance.post("/auth/login",data)  
             set({authUser:res});
             set({islogin:true})
-            toast.success("login")
             get().connectSocket()
+            toast.success("login")
         } catch (error) {
             set({islogin:false})
             toast.error(error)
@@ -78,12 +79,23 @@ try {
 
     connectSocket:()=>{
         const {authUser}=get()
-        if(!authUser || get().socket?.connected())return;
-        const socket=io("http://localhost:4000")
+        if(!authUser || get().socket?.connected) return;
+        const socket= io("http://localhost:4000",{
+            query:{
+                userId:authUser._id
+            }
+        })
         socket.connect();
+
+        set({socket:socket})
         
+        socket.on("getOnlineUsers",(user)=>{
+            set({onlineUsers:user}) 
+        });
+        
+        console.log(get().socket.connected);
     },
     disconnectSocket:()=>{
-       if(get().socket?.connected()) get().socket.disconnect();
+       get().socket.disconnect();
     }
 }))
