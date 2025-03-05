@@ -7,7 +7,7 @@ const profilePage = () => {
 
   const [selectImg,setSelectImg]=useState(null)
 
- /* const hanldelUpload=(e)=>{
+  const hanldelUpload=(e)=>{
     const file=e.target.files[0];
     if(!file)return
     const reader=new FileReader();
@@ -17,7 +17,7 @@ const profilePage = () => {
       setSelectImg(base64Image)
      await updatePic({profileImg:base64Image})
     } 
-  }*/
+  }
   return (
     <div>
       <div className=' w-4/6 h-3/4  m-auto'>
