@@ -1,6 +1,7 @@
 import  Message  from "../model/message.model.js";
 import User from "../model/user.model.js";
 import { handler } from "../utils/handler.js";
+import { getReceiverSocketId, io } from "../utils/socket.js";
 
 
 export const users=handler(async (req,res)=>{
@@ -48,6 +49,13 @@ export const sendMessage= handler(async (req,res)=>{
         senderId:myId,
         text
     })
+    await message.save();
+//realtime message 
+    const getreceiverId = getReceiverSocketId(receiverId)
+
+    if(getreceiverId){
+        io.to(getreceiverId).emit("newMessage",message)
+    }
 
     if(!message){
         res.status(404).json({data:"Message Not Found"})

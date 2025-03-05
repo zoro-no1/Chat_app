@@ -1,7 +1,9 @@
 import {create} from "zustand"
 import { axiosInstance } from "../util/axios.js"
 import toast from "react-hot-toast";
-import {io} from "socket.io-client"
+import io from "socket.io-client"
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:4000" : "/";
 export const authStore= create((set,get)=>({
     authUser:null,
     signin:false,
@@ -16,6 +18,7 @@ export const authStore= create((set,get)=>({
             const res= await axiosInstance.get("/auth/check"); 
             set({authUser:res.data.message})
              get().connectSocket()
+
         } catch (error) {
             console.log(error);
          
@@ -80,20 +83,29 @@ try {
     connectSocket:()=>{
         const {authUser}=get()
         if(!authUser || get().socket?.connected) return;
-        const socket= io("http://localhost:4000",{
+        const socket= io(BASE_URL,{
             query:{
                 userId:authUser._id
-            }
+            },
+            transports: ['websocket'],
+            reconnection: true,
+            reconnectionAttempts: 5,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            timeout: 20000,
+            autoConnect: true
         })
-        socket.connect();
+       socket.connect()
 
         set({socket:socket})
+       console.log(get().socket?.connected);
+       console.log(socket);
+       
         
         socket.on("getOnlineUsers",(user)=>{
             set({onlineUsers:user}) 
         });
         
-        console.log(get().socket.connected);
     },
     disconnectSocket:()=>{
        get().socket.disconnect();

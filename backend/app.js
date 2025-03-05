@@ -6,8 +6,10 @@ import messageRouth from "./scr/routers/message.route.js";
 import cookieParser from "cookie-parser";
 import cors from"cors"
 import {app,server} from "./scr/utils/socket.js"
+import path from "path";
 
 dotenv.config();
+const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -19,6 +21,15 @@ app.use(cors({
 
 app.use("/api/auth", authRouther);
 app.use("/api/message", messageRouth);
+
+if (process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname,"../frontend/dist")))
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
+
+}
 
 server.listen(process.env.PORT, () => {
   console.log(process.env.PORT);
