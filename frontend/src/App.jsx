@@ -6,7 +6,7 @@ import Signin from "./pages/Signin";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import { authStore } from "./store/authAxios.js";
-import ProfilePage from "./pages/profilePage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import {Toaster} from "react-hot-toast"
 import SettingPage from "./pages/SettingPage.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
