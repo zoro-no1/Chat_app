@@ -1,4 +1,4 @@
-import SideUser from "../components/sideUser";
+import SideUser from "../components/SideUser";
 import { useChatStore } from "../store/useChatStore";
 import ChatBox from "../components/ChatBox";
 import NoUser from "../components/NoUser";
