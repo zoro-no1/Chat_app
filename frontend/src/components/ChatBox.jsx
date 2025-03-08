@@ -23,7 +23,8 @@ const ChatBox = () => {
 
   useEffect(()=>{
     if (messageEndRef.current && message) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" })
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      messageEndRef.current=null
   }},[message])
 
   if (isMessagesLoading) return <div>Loading......</div>;

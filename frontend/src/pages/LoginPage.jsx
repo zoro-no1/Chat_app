@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { authStore } from '../store/authAxios'
+import { authStore } from '../store/authAxios.js'
 import toast from 'react-hot-toast';
 
 const LoginPage = () => {
@@ -11,7 +11,7 @@ const [showPassword,setShowPassword]=useState(false)
 
   const {islogin,login}=authStore();
   const validateForm=()=>{
-    if(!formData.username.trim())return toast.error("enter name");
+    if(!formData.username.trim())return toast.error("enter Username");
     if(!formData.password.trim())return toast.error("enter password")
 
       return true

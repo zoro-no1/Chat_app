@@ -8,8 +8,9 @@ import { handler } from "../utils/handler.js";
 export const signin = handler(async (req, res) => {
   const { username, email, password } = req.body;
 
-  if (!{ $or: [{ username }, { email }, { password }] }) {
-    throw new Error("enter all detail");
+  if (!username || !email || !password) {
+  //  throw new Error("enter all detail");
+   return res.status(401).json({message:"Enter all detail"})
   }
 
   const existUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -35,19 +36,22 @@ export const login = handler(async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!{ $or: [{ username }, { email }, { password }] }) {
-    throw new apiError(401, "Enter all detail");
+   // throw new apiError(401, "Enter all detail");
+   return res.status(401).json({message:"Enter all detail"})
   }
 
   const loginUser = await User.findOne({ $or: [{ username }, { email }] });
 
   if (!loginUser) {
-    throw new apiError(401, "user not found ");
+   // throw new apiError(401, "user not found ");
+   return res.status(401).json({message:"user not found "})
   }
 
   const PasswordCorrect = await loginUser.isPasswordCorrect(password);
 
   if (!PasswordCorrect) {
-    throw new apiError(400, "incorrect Password");
+   // throw new apiError(400, "incorrect Password");
+    res.status(401).json({message: "incorrect Password"})
   }
 
   const token = await loginUser.refreshToken();

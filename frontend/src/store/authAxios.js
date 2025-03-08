@@ -62,7 +62,9 @@ export const authStore= create((set,get)=>({
             toast.success("login")
         } catch (error) {
             set({islogin:false})
-            toast.error(error)
+            console.log(error.response.data.message);
+            
+            toast.error(error.response.data.message)
         }
     },
 
