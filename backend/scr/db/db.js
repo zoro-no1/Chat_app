@@ -8,7 +8,7 @@ const dbConnection= async()=>{
     console.log("data base connected");
     
 } catch (error) {
-    console.log(uri);
+   // console.log(uri);
     
     throw new Error("data base not connected");
     

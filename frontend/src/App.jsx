@@ -19,7 +19,7 @@ const App = () => {
     
   }, [checkingAuth,onlineUsers]);
 
-  console.log(onlineUsers);
+ // console.log(onlineUsers);
   
  // console.log({authUser});
 

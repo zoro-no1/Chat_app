@@ -7,7 +7,7 @@ import { getReceiverSocketId, io } from "../utils/socket.js";
 export const users=handler(async (req,res)=>{
     const loginId= req.user._id
     const filterId = await User.find({_id:{$ne:loginId}}).select("-password")
-
+    
     res.status(200).json({
         message:filterId
     }
@@ -30,7 +30,7 @@ export const getMessage= handler(async (req,res)=>{
         }
         )
  } catch (error) {
-    console.log("Error in getMessages controller: ", error.message);
+   // console.log("Error in getMessages controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
  }
 

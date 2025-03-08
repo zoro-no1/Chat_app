@@ -89,7 +89,7 @@ export const uploadImg=handler(async(req,res)=>{
    const {profileImg}= req.body;
    const userId= req.user;
    if(!profileImg){
-     res.staus(401).json({message:"image not found"})
+     res.status(401).json({message:"image not found"})
  };
  const uploadCloudinary= await cloudinary.uploader.upload(profileImg)
  const updateUser= await User.findByIdAndUpdate(userId._id,{profileImg:uploadCloudinary.secure_url},{new:true});
@@ -97,7 +97,7 @@ export const uploadImg=handler(async(req,res)=>{
  
  res.status(201).json({message:"image upload successfully"})
  } catch (error) {
-  res.staus(401).json({message:error.message})
+  res.status(401).json({message:"server problem while uploading profile"})
 };
  }
 )

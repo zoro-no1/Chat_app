@@ -69,14 +69,16 @@ export const authStore= create((set,get)=>({
     },
 
     updatePic:async(data)=>{
-        set({isFileUpload:true});
+        set({isFileUpload:true});     
 try {
     const res=await axiosInstance.put("/auth/uploadImg",data);
     set({authUser:res.data})
     toast.success("uploaded")
 } catch (error) {
     set({isFileUpload:false})
-    toast.error(error.response.data.error)
+    toast.error(error.response.data.message)
+    console.log(error);
+    
 }finally{
     set({isFileUpload:false})
 }
@@ -100,8 +102,8 @@ try {
        socket.connect()
 
         set({socket:socket})
-       console.log(get().socket?.connected);
-       console.log(socket);
+      // console.log(get().socket?.connected);
+      // console.log(socket);
        
         
         socket.on("getOnlineUsers",(user)=>{

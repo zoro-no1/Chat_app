@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { authStore } from '../store/authAxios.js'
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
 const [showPassword,setShowPassword]=useState(false)
@@ -23,7 +24,7 @@ const [showPassword,setShowPassword]=useState(false)
   }
   return (
     <div>
-      <form onSubmit={submit}>
+      <form onSubmit={submit} className=' w-2/5 h-screen m-auto '>
 
       <label className="input input-bordered flex items-center gap-2">
           <svg
@@ -46,7 +47,7 @@ const [showPassword,setShowPassword]=useState(false)
         </label>
 
         
-        <label className="input input-bordered flex items-center gap-2">
+        <label className="input input-bordered flex items-center gap-2 mt-1">
           <button   type="button" onClick={()=>{
             showPassword?setShowPassword(false):setShowPassword(true)
           }}>
@@ -67,7 +68,7 @@ const [showPassword,setShowPassword]=useState(false)
               </button>
           <input
            type={showPassword?"text":"password"}
-            className="grow"
+            className="grow "
             value={formData.password}
             placeholder="password"
             onChange={(e) =>
@@ -77,7 +78,11 @@ const [showPassword,setShowPassword]=useState(false)
           />
          
         </label>
-        <button className="btn btn-primary" type='submit'>Login</button>
+        <div className='flex justify-between mt-1'>
+        <button className="btn btn-primary " type='submit'>Login</button>
+            <Link  to= {"/signin"}>
+            <button className="btn btn-active "> Signin</button></Link>
+        </div>
             </form>
     </div>
   )

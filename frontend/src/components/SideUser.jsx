@@ -3,7 +3,7 @@ import { authStore } from "../store/authAxios";
 import { useChatStore } from "../store/useChatStore";
 
 const SideUser = () => {
-  const { authUser } = authStore();
+ // const { authUser } = authStore();
   const { getUsers, users, selectUser, setSelectUser } = useChatStore();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const SideUser = () => {
             className={` ${selectUser?._id === user._id ? "bg-base-300 " : ""} w-full flex justify-between `}
             >    
             <div className=" size-8 md:size-12 rounded-full border-2 overflow-y-auto">
-              <img src={authUser.profileImg || "../avatar.webp"} alt="error" />
+              <img src={user.profileImg || "../avatar.webp"} alt="error" />
             </div>
             <div className=" text-center">{user.username}</div>
             <div className="hidden"></div>

@@ -7,7 +7,7 @@ const ChatHeader = () => {
   return (
     <div className="w-full border-b">
       <div className="flex justify-between ">
-        <div>
+        <div className="flex  justify-between gap-2 items-center">
           <img
             src={selectUser.profileImg || "avatar.webp"}
             alt="error"
