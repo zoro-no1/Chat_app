@@ -24,6 +24,8 @@ export const getMessage= handler(async (req,res)=>{
                {receiverId:myId,senderId:chatId}
            ]
        })
+     //  console.log(message);
+       
       
         res.status(200).json({
            message
@@ -62,4 +64,22 @@ export const sendMessage= handler(async (req,res)=>{
     }
 
     res.status(201).json({message:message.text})
+})
+export const deleteMessage= handler(async (req,res)=>{
+     const {id:messageId} = req.params;
+    console.log(messageId);
+    
+     const deleteMessages= await Message.findByIdAndDelete(messageId,{new:true})
+     console.log(deleteMessages);
+
+     if(!deleteMessages){
+        res.status(400).json({
+            message:"Message Not Found"
+        })
+     }
+
+     res.status(201).json({
+        message:"Delete Message"
+     })
+     
 })

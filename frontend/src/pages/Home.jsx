@@ -5,7 +5,7 @@ import NoUser from "../components/NoUser";
 const Home = () => {
   const { selectUser } = useChatStore();
   return (
-    <div className="h-screen bg-base-200">
+    <div className="h-4/5 bg-base-200">
       <div className="pt-4 px-4 flex justify-center items-center">
         <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]">
           <div  className="flex h-full rounded-lg overflow-hidden">

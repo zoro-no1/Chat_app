@@ -1,4 +1,4 @@
-import { useEffect,useRef } from "react";
+import { useEffect,useRef, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
@@ -8,11 +8,11 @@ import { formatMessageTime } from "../util/dateFunction";
 
 
 const ChatBox = () => {
-  const { message, getMessage, isMessagesLoading, selectUser,listenToMessage,unListenToMessage } = useChatStore();
+  const { message, getMessage, isMessagesLoading, selectUser,listenToMessage,unListenToMessage,deleteMessages } = useChatStore();
 
   const { authUser } = authStore();
   const messageEndRef = useRef(null);
-
+  const [deleteMessage,setDeleteMessage]=useState(false)
   useEffect(() => {
     getMessage(selectUser._id);
 
@@ -27,6 +27,18 @@ const ChatBox = () => {
       messageEndRef.current=null
   }},[message])
 
+ async function deleteMessageFun (id){
+   setDeleteMessage(confirm("Want To Delete Message"))
+   // await deleteMessages(id)
+   console.log(deleteMessage);
+    console.log(id);
+   if(deleteMessage){
+     await deleteMessages(id)
+   }
+ 
+  
+  }
+
   if (isMessagesLoading) return <div>Loading......</div>;
   return (
     <div className="flex flex-1 flex-col h-full mt-0 justify-between">
@@ -39,8 +51,9 @@ const ChatBox = () => {
             }`}
             ref={messageEndRef}
           >
-            <div>
-              <div className=" bg-black rounded-md text-center border-2-black">
+            <div  onClick={()=>deleteMessageFun(i._id)} >
+              <div className=" bg-black rounded-md text-center border-2-black"
+                >
                 {i.text}
               </div>
             

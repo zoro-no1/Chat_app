@@ -4,6 +4,7 @@ import { axiosInstance } from "../util/axios";
 import { authStore } from "./authAxios";
 
 
+
 export const useChatStore = create((set,get)=>({
     message:[],
     users:[],
@@ -76,5 +77,15 @@ export const useChatStore = create((set,get)=>({
 
     setSelectUser: async(user)=>{
         set({selectUser:user})
+    },
+    deleteMessages:async(messageId)=>{
+        try {
+            const res= await axiosInstance.get(`/message/delete/${messageId}`)
+            console.log(res);
+            
+            toast.success("message Delete")
+        } catch (error) {
+             toast.error(error.response.data)
+        }
     }
 }))
