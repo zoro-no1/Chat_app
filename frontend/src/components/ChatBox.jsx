@@ -12,7 +12,7 @@ const ChatBox = () => {
 
   const { authUser } = authStore();
   const messageEndRef = useRef(null);
-  const [deleteMessage,setDeleteMessage]=useState(false)
+ 
   useEffect(() => {
     getMessage(selectUser._id);
 
@@ -28,11 +28,9 @@ const ChatBox = () => {
   }},[message])
 
  async function deleteMessageFun (id){
-   setDeleteMessage(confirm("Want To Delete Message"))
-   // await deleteMessages(id)
-   console.log(deleteMessage);
+  
     console.log(id);
-   if(deleteMessage){
+   if(confirm("Want To Delete Message")){
      await deleteMessages(id)
    }
  
@@ -52,7 +50,7 @@ const ChatBox = () => {
             ref={messageEndRef}
           >
             <div  onClick={()=>deleteMessageFun(i._id)} >
-              <div className=" bg-black rounded-md text-center border-2-black"
+              <div className=" bg-black rounded-md chat-bubble cursor-pointer text-center border-2-black"
                 >
                 {i.text}
               </div>

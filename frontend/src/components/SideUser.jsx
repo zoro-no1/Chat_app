@@ -19,8 +19,8 @@ const SideUser = () => {
             onClick={() => setSelectUser(user)}
             className={` ${selectUser?._id === user._id ? "bg-base-300 " : ""} w-full flex justify-between `}
             >    
-            <div className=" size-8 md:size-12 rounded-full border-2 overflow-y-auto">
-              <img src={user.profileImg || "../avatar.webp"} alt="error" />
+            <div className="relative mx-auto lg:mx-0 my-1">
+              <img src={user.profileImg || "../avatar.webp"} alt="error" className="size-12 object-cover rounded-full"/>
             </div>
             <div className=" text-center">{user.username}</div>
             <div className="hidden"></div>

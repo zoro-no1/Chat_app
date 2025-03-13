@@ -85,7 +85,7 @@ export const useChatStore = create((set,get)=>({
             
             toast.success("message Delete")
         } catch (error) {
-             toast.error(error.response.data)
+             toast.error(error.response.data.message)
         }
     }
 }))

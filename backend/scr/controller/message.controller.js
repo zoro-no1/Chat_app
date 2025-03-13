@@ -67,14 +67,16 @@ export const sendMessage= handler(async (req,res)=>{
 })
 export const deleteMessage= handler(async (req,res)=>{
      const {id:messageId} = req.params;
+     const myId = req.user
     console.log(messageId);
+    console.log(myId);
     
-     const deleteMessages= await Message.findByIdAndDelete(messageId,{new:true})
+     const deleteMessages= await Message.findOneAndDelete({senderId:myId._id,_id:messageId},{new:true})
      console.log(deleteMessages);
 
      if(!deleteMessages){
-        res.status(400).json({
-            message:"Message Not Found"
+        res.status(401).json({
+            message:"Not Possible"
         })
      }
 
